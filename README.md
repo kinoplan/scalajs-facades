@@ -5,6 +5,8 @@
 Scala.js facades for selected npm packages, generated with the [kinoplan fork][converter-fork] of [ScalablyTyped][scalablytyped]
 and published as a set of separate libraries.
 
+At the moment the selected packages are published for [scalajs-react][scalajs-react] only (the `sjr-` prefix).
+
 ##### Contents
 
 * [Usage](#usage)
@@ -22,8 +24,11 @@ Add the modules you need to `libraryDependencies`. All of them share one version
 
 ```scala
 libraryDependencies ++= Seq(
-  "io.kinoplan.scalajs-facades" %%% "sjr-antd" % ${version},
-  "io.kinoplan.scalajs-facades" %%% "sjr-ant-design-icons" % ${version}
+  // the sjr-facades are generated for scalajs-react, so the components are used through it
+  "com.github.japgolly.scalajs-react" %%% "core"                 % "4.0.0",
+
+  "io.kinoplan.scalajs-facades"       %%% "sjr-antd"             % ${version},
+  "io.kinoplan.scalajs-facades"       %%% "sjr-ant-design-icons" % ${version}
 )
 ```
 
@@ -94,3 +99,4 @@ This project is licensed under the terms of the [Apache License, Version 2.0](ht
 
 [scalablytyped]: https://scalablytyped.org/
 [converter-fork]: https://github.com/kinoplan/ScalablyTypedConverter
+[scalajs-react]: https://github.com/japgolly/scalajs-react

@@ -17,6 +17,9 @@ You will need the following tools:
 
 ## Project structure
 
+The `sjr-` facades are generated for [scalajs-react](https://github.com/japgolly/scalajs-react),
+that is what the prefix means (`stFlavour := Flavour.ScalajsReact` in `ProjectSettings.scala`).
+
 | Path                      | What it is                                                                       |
 |---------------------------|----------------------------------------------------------------------------------|
 | `build.sbt`               | the `sjrFacades` generator: npm packages, versions, minimization                 |

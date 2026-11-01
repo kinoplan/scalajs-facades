@@ -29,6 +29,7 @@ The facades are generated with the [kinoplan fork](https://github.com/kinoplan/S
 ScalablyTyped (`io.kinoplan.scalablytyped:sbt-converter`) and published to Maven Central under
 `io.kinoplan.scalajs-facades` as `sjr-<kebab-package>`.
 
+- **Flavour:** `sjr` = Scala.js React: everything is generated with `stFlavour := Flavour.ScalajsReact` ([scalajs-react](https://github.com/japgolly/scalajs-react))
 - **Language:** Scala 2.13 / 3 (versions in [project/ProjectSettings.scala](project/ProjectSettings.scala)), Scala.js only
 - **Build:** SBT, `ScalablyTypedConverterGenSourcePlugin`, `sbt-ci-release`, `sbt-dynver`
 - **Generated code is not committed:** `sjr-modules/` and `facade-modules.sbt` are in `.gitignore`
@@ -95,9 +96,10 @@ npmDependencies (build.sbt)
 1. **Never edit generated files** — `sjr-modules/` and `facade-modules.sbt` are overwritten by `genFacades`; fix the cause in `build.sbt`, `ProjectSettings.scala` or `FacadeSplitter.scala`.
 2. **Facades are a public API** — a renamed or removed type breaks every user; changing `stMinimize`, `stMinimizeKeep` or tree shaking changes the artifacts.
 3. **Both Scala versions** — a change must work for 2.13 and 3, generation and compilation run for both.
-4. **Minimal dependencies** — only `scalablytyped-runtime` and `scalajs-react` core in modules; don't add more.
-5. **Comments in English only**, in the style of the surrounding code.
-6. **Formatting** — run `sbt format` before finishing.
+4. **`sjr` means scalajs-react** — don't mix flavours in these modules; another flavour needs its own prefix, namespace and modules, not a flag on the existing ones.
+5. **Minimal dependencies** — only `scalablytyped-runtime` and `scalajs-react` core in modules; don't add more.
+6. **Comments in English only**, in the style of the surrounding code.
+7. **Formatting** — run `sbt format` before finishing.
 
 ### 3.2. Adding or Updating a Package
 

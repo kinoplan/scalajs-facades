@@ -39,8 +39,20 @@ jobs:
     - name: Scalafmt check sbt
       run: sbt $SBT_JAVA_OPTS -v scalafmtSbtCheck
 
+    # the generated modules (with their compiled classes) depend only on the build definition,
+    # so a change that does not touch it, e.g. in the docs, reuses them
+    - name: Cache generated facades
+      id: facades-cache
+      uses: actions/cache@v6
+      with:
+        path: |
+          sjr-modules
+          facade-modules.sbt
+        key: facades-${{ hashFiles('build.sbt', 'alias.sbt', 'project/*.scala', 'project/*.sbt', 'project/build.properties') }}
+
     # converts npm packages to Scala sources and splits them into modules (facade-modules.sbt)
     - name: Generate facades
+      if: steps.facades-cache.outputs.cache-hit != 'true'
       run: sbt $SBT_JAVA_OPTS -v genFacades
 
     - name: Compile facades

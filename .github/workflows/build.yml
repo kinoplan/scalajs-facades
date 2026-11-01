@@ -1,0 +1,47 @@
+name: build
+
+on: [push, pull_request]
+
+env:
+  SBT_JAVA_OPTS: -J-Xms4G -J-Xmx4G
+
+jobs:
+  pre-check:
+    runs-on: ubuntu-latest
+    outputs:
+      should_skip: ${{ steps.skip_check.outputs.should_skip }}
+    steps:
+      - id: skip_check
+        uses: fkirc/skip-duplicate-actions@v5
+        with:
+          concurrent_skipping: 'same_content'
+  build:
+    needs: pre-check
+    if: needs.pre-check.outputs.should_skip != 'true' || github.event_name == 'pull_request'
+    name: Generate and Compile
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout current branch
+      uses: actions/checkout@v7
+
+    - name: Cache build
+      uses: coursier/cache-action@v8
+
+    - name: Install coursier
+      uses: coursier/setup-action@v3
+      with:
+        jvm: "temurin:17"
+    - uses: sbt/setup-sbt@v1
+    - uses: actions/setup-node@v7
+      with:
+        node-version: 22
+
+    - name: Scalafmt check sbt
+      run: sbt $SBT_JAVA_OPTS -v scalafmtSbtCheck
+
+    # converts npm packages to Scala sources and splits them into modules (facade-modules.sbt)
+    - name: Generate facades
+      run: sbt $SBT_JAVA_OPTS -v genFacades
+
+    - name: Compile facades
+      run: sbt $SBT_JAVA_OPTS -v compileFacades

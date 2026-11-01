@@ -1,0 +1,28 @@
+pull_request_rules:
+  - name: automatic assign and label for scala-steward pull requests
+    conditions:
+      - or:
+        - author=scala-steward
+        - author=kinoplan-scala-steward[bot]
+    actions:
+      assign:
+        users: [kazievab]
+      label:
+        add: [dependencies]
+  - name: automatic merge for scala-steward pull requests
+    conditions:
+      - or:
+        - author=scala-steward
+        - author=kinoplan-scala-steward[bot]
+      - "body~=(labels:.*semver-patch.*)|(labels:.*semver-minor.*)"
+      - check-success=Generate and Compile
+    actions:
+      merge:
+        method: squash
+  - name: automatic merge for dependabot pull requests
+    conditions:
+      - author=dependabot[bot]
+      - check-success=Generate and Compile
+    actions:
+      merge:
+        method: squash

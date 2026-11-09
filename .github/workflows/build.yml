@@ -27,10 +27,12 @@ jobs:
     - name: Cache build
       uses: coursier/cache-action@v9
 
-    - name: Install coursier
-      uses: coursier/setup-action@v3
+    - name: Setup JDK
+      uses: actions/setup-java@v6
       with:
-        jvm: "temurin:17"
+        distribution: temurin
+        java-version: 17
+        cache: sbt
     - uses: sbt/setup-sbt@v1
     - uses: actions/setup-node@v7
       with:

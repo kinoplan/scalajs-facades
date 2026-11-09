@@ -85,7 +85,6 @@ crossScalaVersions := ProjectSettings.scalaVersions
 // format: off
 inThisBuild(
   List(
-    sonatypeCredentialHost := Sonatype.sonatype01,
     versionScheme := Some(VersionScheme.EarlySemVer),
     organization := "io.kinoplan.scalajs-facades",
     homepage := Some(url("https://github.com/kinoplan/scalajs-facades")),

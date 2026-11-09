@@ -28,8 +28,9 @@ object FacadeSplitter {
     def sourcesDir(module: String) = modulesDir / module / "src" / "main" / scalaDir /
       Namespace.replace('.', '/')
 
-    (BaseModule :: packages)
-      .foreach(module => IO.delete(modulesDir / module / "src" / "main" / scalaDir))
+    (BaseModule :: packages).foreach(module =>
+      IO.delete(modulesDir / module / "src" / "main" / scalaDir)
+    )
 
     children.filter(_.isFile).foreach(f => IO.copyFile(f, sourcesDir(BaseModule) / f.getName))
 
@@ -54,7 +55,9 @@ object FacadeSplitter {
   private def ensureAcyclic(graph: Map[String, Set[String]]): Unit = {
     def visit(node: String, path: List[String], done: scala.collection.mutable.Set[String]): Unit =
       if (path.contains(node)) sys.error(
-        s"Facade packages form a cycle, merge them into one module: ${(node :: path).reverse.mkString(" -> ")}"
+        s"Facade packages form a cycle, merge them into one module: ${
+            (node :: path).reverse.mkString(" -> ")
+          }"
       )
       else if (done.add(node)) graph(node).foreach(visit(_, node :: path, done))
 

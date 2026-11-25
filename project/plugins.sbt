@@ -1,6 +1,6 @@
 addDependencyTreePlugin
 
-addSbtPlugin("io.kinoplan.scalablytyped" % "sbt-converter" % "1.0.0-beta45-kp-2")
+addSbtPlugin("io.kinoplan.scalablytyped" % "sbt-converter" % "1.0.0-beta45-kp-3")
 
 addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.6.2")
 
